@@ -1,0 +1,59 @@
+
+CREATE TABLE lesson1.department (
+  id INT,
+  name VARCHAR(45) NULL,
+  isProfit VARCHAR(45) NULL,
+  PRIMARY KEY ('id'));
+  
+  
+  INSERT INTO lesson1.department (id, name, isProfit) VALUES (1, 'Finance', 'no');
+  INSERT INTO lesson1.department (id, name, isProfit) VALUES (2, 'Credit', 'yes');
+  INSERT INTO lesson1.department (id, name, isProfit) VALUES (3, 'Sales', 'yes');
+  INSERT INTO lesson1.department (id, name, isProfit) VALUES (4, 'Bosses', 'no');
+
+CREATE TABLE `lesson1`.`employee` (
+  `id` INT NOT NULL,
+  `full_name` VARCHAR(45) NULL,
+  `salary` INT NULL,
+  `department_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `department_fk_idx` (`department_id` ASC),
+  CONSTRAINT `department_fk`
+    FOREIGN KEY (`department_id`)
+    REFERENCES `lesson1`.`department` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+  INSERT INTO lesson1.employee (id, full_name, salary, department_id) VALUES (1, 'Petrov IVAN', 30000, 3);
+  INSERT INTO lesson1.employee (id, full_name, salary, department_id) VALUES (2, 'Ivanova Natalya', 50000, 1);
+  INSERT INTO lesson1.employee (id, full_name, salary, department_id) VALUES (3, 'Mirskih Petr', 100000, 4);
+  INSERT INTO lesson1.employee (id, full_name, salary, department_id) VALUES (4, 'Ulykaev Vladimir', 200000, 4);
+  INSERT INTO lesson1.employee (id, full_name, salary, department_id) VALUES (5, 'Zamorskih Petr', 70000, 2);
+  
+  select * from employee where department_id = 4;
+  
+  SELECt SUM(salary) from employee;
+  
+  select full_name, isProfit as works_in_profit_department 
+  from employee
+  join department 
+  on employee.department_id = department.id;
+  
+select * from employee where salary > 10000 and salary <= 100000;
+  
+delete from employee where full_name = 'Mirskih Petr';
+  
+update department set name = 'Debit', isProfit = 'no' where name = 'Credit';
+
+select * from employee where full_name like '%ivan%';
+
+select AVG(salary), department.name as department 
+from employee 
+join department
+on employee.department_id = department.id
+group by department;
+
+drop table employee;
+drop table department;
+
+  
